@@ -39,13 +39,28 @@ public class Lexer {
         switch (currentChar) {
             case '=':
                 token.setType(TokenType.ASSIGN);
-                token.setValue(Character.toString(currentChar));
             case ';':
                 token.setType(TokenType.SEMICOLON);
-                token.setValue(Character.toString(currentChar));
             case '+':
                 token.setType(TokenType.PLUS);
-                token.setValue(Character.toString(currentChar));
+            case '(':
+                token.setType(TokenType.LPAREN);
+            case ')':
+                token.setType(TokenType.RPAREN);
+            case '{':
+                token.setType(TokenType.LBRACE);
+            case '}':
+                token.setType(TokenType.RBRACE);
+            case ',':
+                token.setType(TokenType.COMMA);
+            case 0:
+                token.setType(TokenType.EOF);
+        }
+
+        if (token.getType() == TokenType.EOF) {
+            token.setValue("");
+        } else {
+            token.setValue(Character.toString(currentChar));
         }
 
         readChar();
