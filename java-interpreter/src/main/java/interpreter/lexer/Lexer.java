@@ -14,9 +14,9 @@ import lombok.Setter;
 public class Lexer {
     private String input;
     // position is pointing to the currentChar, and readPosition points to the next char of currentChar
-    private Integer position;
+    private Integer position = 0;
     private Character currentChar;
-    private Integer readPosition;
+    private Integer readPosition = 0;
 
     public Lexer(String input) {
         this.input = input;
