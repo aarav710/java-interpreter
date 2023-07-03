@@ -1,22 +1,25 @@
 package interpreter.Repl;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import interpreter.lexer.Lexer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.InputStream;
 import java.io.PrintStream;
 
+@NoArgsConstructor
+@Setter
+@Getter
 public class ReplImpl implements Repl {
-    private final String PROMPT = ">>";
-    private final InputStream inputStream;
-    private final PrintStream printStream;
-
-    @Inject
-    public ReplImpl(InputStream inputStream, PrintStream printStream) {
-        this.inputStream = inputStream;
-        this.printStream = printStream;
-    }
 
     public void start() {
-
+        InputStream inputStream = System.in;
+        PrintStream printStream = System.out;
+        final String PROMPT = ">>";
+        printStream.println(PROMPT);
     }
 }
