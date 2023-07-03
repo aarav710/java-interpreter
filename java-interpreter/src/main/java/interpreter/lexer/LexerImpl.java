@@ -55,6 +55,18 @@ public class LexerImpl implements Lexer {
                 token.setType(TokenType.RBRACE);
             case ',':
                 token.setType(TokenType.COMMA);
+            case '-':
+                token.setType(TokenType.MINUS);
+            case '!':
+                token.setType(TokenType.BANG);
+            case '>':
+                token.setType(TokenType.GT);
+            case '<':
+                token.setType(TokenType.LT);
+            case '*':
+                token.setType(TokenType.ASTERISK);
+            case '/':
+                token.setType(TokenType.SLASH);
             case 0:
                 token.setType(TokenType.EOF);
             default:
@@ -102,5 +114,13 @@ public class LexerImpl implements Lexer {
             readChar();
         }
         return input.substring(tempPosition, position);
+    }
+
+    public Character peekChar() {
+        if (readPosition >= input.length()) {
+            return 0;
+        } else {
+            return input.charAt(readPosition);
+        }
     }
 }
