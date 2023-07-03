@@ -1,9 +1,5 @@
 package interpreter.Repl;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import interpreter.lexer.Lexer;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

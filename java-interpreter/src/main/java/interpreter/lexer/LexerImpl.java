@@ -36,6 +36,8 @@ public class LexerImpl implements Lexer {
     public Token nextChar() {
         Token token = new Token();
 
+        skipWhitespace();
+
         switch (currentChar) {
             case '=':
                 token.setType(TokenType.ASSIGN);
@@ -55,6 +57,19 @@ public class LexerImpl implements Lexer {
                 token.setType(TokenType.COMMA);
             case 0:
                 token.setType(TokenType.EOF);
+            default:
+                if (Character.isLetter(currentChar)) {
+                    token.setValue(readIndentifier());
+                    token.setType(Token.lookupIdent(token.getValue()));
+                    return token;
+                } else if (Character.isDigit(currentChar)) {
+                    token.setType(TokenType.INT);
+                    token.setValue(readNumber());
+                    return token;
+                } else {
+                    token.setType(TokenType.ILLEGAL);
+                }
+
         }
 
         if (token.getType() == TokenType.EOF) {
@@ -65,5 +80,27 @@ public class LexerImpl implements Lexer {
 
         readChar();
         return token;
+    }
+
+    public String readIndentifier() {
+        var tempPosition = position;
+        while(Character.isLetter(currentChar)) {
+            readChar();
+        }
+        return input.substring(tempPosition, position);
+    }
+
+    public void skipWhitespace() {
+        while (currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == '\r') {
+            readChar();
+        }
+    }
+
+    public String readNumber() {
+        var tempPosition = position;
+        while (Character.isDigit(currentChar)) {
+            readChar();
+        }
+        return input.substring(tempPosition, position);
     }
 }
