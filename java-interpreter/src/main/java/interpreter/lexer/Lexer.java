@@ -9,8 +9,6 @@ public interface Lexer {
     public void skipWhitespace();
     public String readNumber();
     public Character peekChar();
-    public String getInput();
-    public Character getCurrentChar();
-    public Integer getReadPosition();
-    public Integer getPosition();
+
+    public void reset(String input);
 }
