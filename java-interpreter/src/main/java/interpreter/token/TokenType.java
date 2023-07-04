@@ -11,6 +11,14 @@ public enum TokenType {
     // Operators
     ASSIGN,
     PLUS,
+    MINUS,
+    BANG,
+    ASTERISK,
+    SLASH,
+    LT,
+    GT,
+    EQ,
+    NOT_EQ,
 
     // Delimiters
     COMMA,
@@ -23,4 +31,9 @@ public enum TokenType {
     // Keywords
     FUNCTION,
     LET,
+    TRUE,
+    FALSE,
+    RETURN,
+    IF,
+    ELSE
 }
