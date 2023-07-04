@@ -26,7 +26,7 @@ public class Token {
     }};
 
     static public TokenType lookupIdent(String ident) {
-        if(KEYWORDS.containsKey(ident)) {
+        if (KEYWORDS.containsKey(ident)) {
             return KEYWORDS.get(ident);
         }
         return TokenType.IDENT;

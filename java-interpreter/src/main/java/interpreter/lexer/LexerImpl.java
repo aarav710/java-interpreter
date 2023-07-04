@@ -1,5 +1,6 @@
 package interpreter.lexer;
 
+import com.google.common.io.CharStreams;
 import interpreter.token.Token;
 import interpreter.token.TokenType;
 import lombok.AllArgsConstructor;
@@ -24,51 +25,90 @@ public class LexerImpl implements Lexer {
     }
 
     public void readChar() {
-        if (readPosition >= input.length()) {
-        currentChar = 0;
-        } else {
-        currentChar = input.charAt(readPosition);
-        }
+        currentChar = readPosition >= input.length() ? 0 : input.charAt(readPosition);
         position = readPosition;
         readPosition++;
     }
 
-    public Token nextChar() {
+    public Token nextToken() {
         Token token = new Token();
 
         skipWhitespace();
-
         switch (currentChar) {
             case '=':
-                token.setType(TokenType.ASSIGN);
+                if (peekChar() == '=') {
+                    var ch = currentChar;
+                    readChar();
+                    token.setType(TokenType.EQ);
+                    token.setValue(Character.toString(ch) + Character.toString(currentChar));
+                } else {
+                    token.setType(TokenType.ASSIGN);
+                    token.setValue(Character.toString(currentChar));
+                }
+                break;
             case ';':
                 token.setType(TokenType.SEMICOLON);
+                token.setValue(Character.toString(currentChar));
+                break;
             case '+':
                 token.setType(TokenType.PLUS);
+                token.setValue(Character.toString(currentChar));
+                break;
             case '(':
                 token.setType(TokenType.LPAREN);
+                token.setValue(Character.toString(currentChar));
+                break;
             case ')':
                 token.setType(TokenType.RPAREN);
+                token.setValue(Character.toString(currentChar));
+                break;
             case '{':
                 token.setType(TokenType.LBRACE);
+                token.setValue(Character.toString(currentChar));
+                break;
             case '}':
                 token.setType(TokenType.RBRACE);
+                token.setValue(Character.toString(currentChar));
+                break;
             case ',':
                 token.setType(TokenType.COMMA);
+                token.setValue(Character.toString(currentChar));
+                break;
             case '-':
                 token.setType(TokenType.MINUS);
+                token.setValue(Character.toString(currentChar));
+                break;
             case '!':
-                token.setType(TokenType.BANG);
+                if (peekChar() == '=') {
+                    var ch = currentChar;
+                    readChar();
+                    token.setType(TokenType.NOT_EQ);
+                    token.setValue(Character.toString(ch) + Character.toString(currentChar));
+                } else {
+                    token.setValue(Character.toString(currentChar));
+                    token.setType(TokenType.BANG);
+                }
+                break;
             case '>':
                 token.setType(TokenType.GT);
+                token.setValue(Character.toString(currentChar));
+                break;
             case '<':
                 token.setType(TokenType.LT);
+                token.setValue(Character.toString(currentChar));
+                break;
             case '*':
                 token.setType(TokenType.ASTERISK);
+                token.setValue(Character.toString(currentChar));
+                break;
             case '/':
                 token.setType(TokenType.SLASH);
+                token.setValue(Character.toString(currentChar));
+                break;
             case 0:
                 token.setType(TokenType.EOF);
+                token.setValue("");
+                break;
             default:
                 if (Character.isLetter(currentChar)) {
                     token.setValue(readIndentifier());
@@ -80,14 +120,9 @@ public class LexerImpl implements Lexer {
                     return token;
                 } else {
                     token.setType(TokenType.ILLEGAL);
+                    token.setValue(Character.toString(currentChar));
                 }
-
-        }
-
-        if (token.getType() == TokenType.EOF) {
-            token.setValue("");
-        } else {
-            token.setValue(Character.toString(currentChar));
+                break;
         }
 
         readChar();
