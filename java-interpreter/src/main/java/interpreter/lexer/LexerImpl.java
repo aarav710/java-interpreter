@@ -1,6 +1,6 @@
 package interpreter.lexer;
 
-import com.google.common.io.CharStreams;
+import com.google.inject.Inject;
 import interpreter.token.Token;
 import interpreter.token.TokenType;
 import lombok.AllArgsConstructor;
@@ -18,11 +18,6 @@ public class LexerImpl implements Lexer {
     private Integer position = 0;
     private Character currentChar;
     private Integer readPosition = 0;
-
-    public LexerImpl(String input) {
-        this.input = input;
-        this.readChar();
-    }
 
     public void readChar() {
         currentChar = readPosition >= input.length() ? 0 : input.charAt(readPosition);
@@ -122,7 +117,6 @@ public class LexerImpl implements Lexer {
                     token.setType(TokenType.ILLEGAL);
                     token.setValue(Character.toString(currentChar));
                 }
-                break;
         }
 
         readChar();
@@ -157,5 +151,12 @@ public class LexerImpl implements Lexer {
         } else {
             return input.charAt(readPosition);
         }
+    }
+
+    public void reset(String input) {
+        this.input = input;
+        this.readPosition = 0;
+        this.position = 0;
+        readChar();
     }
 }
